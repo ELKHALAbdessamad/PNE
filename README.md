@@ -163,12 +163,120 @@
             font-size: 0.8em;
         }
 
-        .about-section {
+        .student-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .connect-section {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-link img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .skills-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 40px;
             border-radius: 15px;
+            margin-bottom: 30px;
             box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .skill-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .skill-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .skill-item img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-item:hover img {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .skill-item span {
+            font-size: 0.9em;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .about-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            color: #333;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(255, 154, 158, 0.3);
         }
 
         .about-title {
@@ -263,22 +371,81 @@
     <div class="container">
         <div class="header">
             <div class="header-content">
-                <div class="profile-subtitle">VotreNom-VotrePrenom-USERNAME / README.md</div>
+                <div class="profile-subtitle">Abdessamad-Elkhal-USERNAME / README.md</div>
                 <h1 class="profile-title">Bienvenue sur Mon Profil GitHub 👨‍💻</h1>
             </div>
         </div>
 
         <div class="content">
             <div class="intro-section">
+                <h3 class="student-title">A passionate Student</h3>
                 <p class="intro-text">
-                    Salut, je suis <strong>Votre Nom</strong> ! Je suis un "Futur Ingénieur IT & Réseau" actuellement en formation. 
-                    Mon objectif est de créer des "solutions innovantes" qui comblent le fossé entre la technologie et les problèmes du monde réel. 
-                    Je suis passionné par le "développement logiciel", l'"ingénierie réseau", et l'"innovation".
+                    Salut, je suis un étudiant passionné par la technologie ! Je me spécialise dans le développement web, 
+                    les bases de données, et les technologies modernes. Mon objectif est de créer des solutions innovantes 
+                    qui résolvent des problèmes réels grâce au code.
                 </p>
             </div>
 
+            <!-- Connect Section -->
+            <div class="connect-section">
+                <h3 class="section-title">🌐 Connect with me:</h3>
+                <div class="social-links">
+                    <a href="https://linkedin.com/in/abdessamad elkhal" target="_blank" class="social-link">
+                        <img src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="LinkedIn" />
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h3 class="section-title">🛠️ Languages and Tools:</h3>
+                <div class="skills-grid">
+                    <div class="skill-item" data-skill="Bootstrap">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="Bootstrap" />
+                        <span>Bootstrap</span>
+                    </div>
+                    <div class="skill-item" data-skill="Chart.js">
+                        <img src="https://www.chartjs.org/media/logo-title.svg" alt="Chart.js" />
+                        <span>Chart.js</span>
+                    </div>
+                    <div class="skill-item" data-skill="CSS3">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="CSS3" />
+                        <span>CSS3</span>
+                    </div>
+                    <div class="skill-item" data-skill="Django">
+                        <img src="https://cdn.worldvectorlogo.com/logos/django.svg" alt="Django" />
+                        <span>Django</span>
+                    </div>
+                    <div class="skill-item" data-skill="Figma">
+                        <img src="https://www.vectorlogo.zone/logos/figma/figma-icon.svg" alt="Figma" />
+                        <span>Figma</span>
+                    </div>
+                    <div class="skill-item" data-skill="Git">
+                        <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="Git" />
+                        <span>Git</span>
+                    </div>
+                    <div class="skill-item" data-skill="HTML5">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="HTML5" />
+                        <span>HTML5</span>
+                    </div>
+                    <div class="skill-item" data-skill="JavaScript">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="JavaScript" />
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="skill-item" data-skill="MySQL">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="MySQL" />
+                        <span>MySQL</span>
+                    </div>
+                    <div class="skill-item" data-skill="Python">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python" />
+                        <span>Python</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="chart-section">
-                <h2 class="chart-title">USERNAME Votre Nom's Graphique de Contributions</h2>
+                <h2 class="chart-title">Abdessamad Elkhal's Graphique de Contributions</h2>
                 <div class="chart-container">
                     <div class="chart-grid"></div>
                     <svg class="chart-svg" viewBox="0 0 800 120">
@@ -394,15 +561,24 @@
                 parallax.style.transform = `translateY(${speed}px)`;
             });
 
-            // Animation des éléments au survol
-            const aboutItems = document.querySelectorAll('.about-item');
-            aboutItems.forEach(item => {
+            // Animation des compétences avec effet de révélation
+            const skillItems = document.querySelectorAll('.skill-item');
+            skillItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(30px)';
+                    item.style.transition = 'all 0.6s ease';
+                    
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 100);
+
+                // Effet tooltip au survol
                 item.addEventListener('mouseenter', function() {
-                    this.style.background = 'rgba(255, 255, 255, 0.2)';
-                });
-                
-                item.addEventListener('mouseleave', function() {
-                    this.style.background = 'rgba(255, 255, 255, 0.1)';
+                    const skill = this.dataset.skill;
+                    this.title = `Compétence: ${skill}`;
                 });
             });
         });
