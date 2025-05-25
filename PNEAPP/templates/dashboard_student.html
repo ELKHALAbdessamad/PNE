@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="text-primary fw-bold">
+            <i class="fas fa-user-graduate me-2"></i>Bonjour {{ user.first_name }} {{ user.last_name }}
+        </h2>
+        <p class="text-muted">Bienvenue sur votre espace étudiant. Consultez vos notes et votre progression.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 border-0">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="rounded-circle bg-primary bg-opacity-10 p-3 mb-3">
+                    <i class="fas fa-book text-primary fa-2x"></i>
+                </div>
+                <h5 class="card-title">Nombre de matières</h5>
+                <p class="card-text display-6 fw-bold text-primary">{{ total_matieres }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 border-0">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="rounded-circle bg-success bg-opacity-10 p-3 mb-3">
+                    <i class="fas fa-chart-line text-success fa-2x"></i>
+                </div>
+                <h5 class="card-title">Moyenne générale</h5>
+                <p class="card-text display-6 fw-bold text-success">{{ moyenne }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 border-0">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="rounded-circle bg-info bg-opacity-10 p-3 mb-3">
+                    <i class="fas fa-trophy text-info fa-2x"></i>
+                </div>
+                <h5 class="card-title">Meilleure note</h5>
+                <p class="card-text display-6 fw-bold text-info">{{ meilleure_note }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-white">
+        <h5 class="card-title mb-0">Notes par matière</h5>
+    </div>
+    <div class="card-body">
+        <canvas id="noteChart" height="100"></canvas>
+    </div>
+</div>
+
+<div class="text-center mt-4 mb-5">
+    <a href="{% url 'export_bulletin_pdf' %}" class="btn btn-primary">
+        <i class="fas fa-file-pdf me-2"></i>Télécharger mon bulletin
+    </a>
+</div>
+
+<!-- ... tout ton code avant reste inchangé -->
+
+<!-- SECTION : Feedbacks reçus -->
+<div class="card border-0 shadow-sm mb-5">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">Feedbacks reçus</h5>
+        {% if feedbacks_non_lus > 0 %}
+            <span class="badge bg-danger">{{ feedbacks_non_lus }} non lu{{ feedbacks_non_lus|pluralize }}</span>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        {% if feedbacks %}
+            <ul class="list-group">
+                {% for fb in feedbacks %}
+                    <li class="list-group-item">
+                        <strong>De : {{ fb.prof.first_name }} {{ fb.prof.last_name }}</strong><br>
+                        <p>{{ fb.message }}</p>
+                        <small class="text-muted">Envoyé le {{ fb.created_at|date:"d/m/Y H:i" }}</small>
+                        {% if not fb.lu %}
+                            <span class="badge bg-warning text-dark ms-2">Nouveau</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">Aucun feedback reçu pour le moment.</p>
+        {% endif %}
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('noteChart').getContext('2d');
+    const noteChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [{% for note in notes %}"{{ note.matiere.nom }}",{% endfor %}],
+            datasets: [{
+                label: 'Note par matière',
+                data: [{% for note in notes %}{{ note.note }},{% endfor %}],
+                backgroundColor: 'rgba(30, 144, 255, 0.6)',
+                borderColor: 'rgba(30, 144, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: { 
+                y: { 
+                    beginAtZero: true, 
+                    max: 20,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '/20';
+                        }
+                    }
+                } 
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

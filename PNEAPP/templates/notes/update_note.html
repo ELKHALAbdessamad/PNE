@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load form_filters %}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h3 class="card-title mb-0 text-center">Mettre à jour la note</h3>
+    </div>
+    <div class="card-body p-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <label class="form-label">Matière</label>
+                {{ form.matiere|add_class:"form-select" }}
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label">Note (0 - 20)</label>
+                {{ form.note|add_class:"form-control" }}
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label">Mention</label>
+                <div class="form-control bg-light" readonly>
+                    {{ note.mention }}
+                </div>
+                <small class="text-muted">La mention est calculée automatiquement selon la note</small>
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label">Étudiant</label>
+                {{ form.etudiant|add_class:"form-select" }}
+            </div>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary px-5">
+                    <i class="fas fa-save me-2"></i>Mettre à jour la note
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

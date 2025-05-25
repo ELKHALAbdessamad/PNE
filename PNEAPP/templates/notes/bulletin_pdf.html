@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Bulletin de notes</title>
+    <style>
+        body { 
+            font-family: DejaVu Sans, sans-serif;
+            color: #333333;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #1E90FF;
+            padding-bottom: 10px;
+        }
+        h1 { 
+            color: #1E90FF;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        h3 { 
+            font-size: 18px;
+            font-weight: normal;
+            margin-top: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+        th {
+            background-color: #E6F7FF;
+            color: #0A4B78;
+            font-weight: bold;
+            text-align: left;
+            padding: 12px;
+            border: 1px solid #87CEEB;
+        }
+        td {
+            padding: 10px 12px;
+            border: 1px solid #87CEEB;
+        }
+        tr:nth-child(even) {
+            background-color: #F8FCFF;
+        }
+        .total {
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #1E90FF;
+            border-top: 1px solid #87CEEB;
+            padding-top: 10px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 40px;
+            border-top: 1px solid #E6F7FF;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Bulletin de notes</h1>
+        <h3>Nom : {{ user.first_name }} {{ user.last_name }}</h3>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Matière</th>
+                <th>Note</th>
+                <th>Mention</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for note in notes %}
+            <tr>
+                <td>{{ note.matiere }}</td>
+                <td>{{ note.note }}</td>
+                <td>
+                    {% if note.note >= 16 %}
+                        Très bien
+                    {% elif note.note >= 14 %}
+                        Bien
+                    {% elif note.note >= 12 %}
+                        Assez bien
+                    {% elif note.note >= 10 %}
+                        Passable
+                    {% else %}
+                        Insuffisant
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <p class="total">Moyenne générale : {{ moyenne|floatformat:2 }}</p>
+    
+    <div class="footer">
+        Document généré le {% now "j F Y" %}
+    </div>
+</body>
+</html>

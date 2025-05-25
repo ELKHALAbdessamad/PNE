@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary"><i class="fas fa-comments me-2"></i>Feedbacks envoyés</h2>
+    </div>
+
+    {% if feedbacks %}
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Étudiant</th>
+                        <th>Message</th>
+                        <th>Date d'envoi</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fb in feedbacks %}
+                        <tr>
+                            <td class="fw-semibold">
+                                {{ fb.etudiant.first_name }} {{ fb.etudiant.last_name }}
+                            </td>
+                            <td>{{ fb.message }}</td>
+                            <td>{{ fb.created_at|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                {% if fb.lu %}
+                                    <span class="badge bg-success">Lu</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">Non lu</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <td>
+                                    <a href="{% url 'modifier_feedback' fb.id %}" class="btn btn-sm btn-warning me-2">Modifier</a>
+                                    <a href="{% url 'confirmer_suppression_feedback' fb.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+                                </td>
+                                
+                                {% csrf_token %}
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            Aucun feedback n'a été envoyé pour le moment.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

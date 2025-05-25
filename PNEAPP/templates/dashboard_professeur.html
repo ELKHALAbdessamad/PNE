@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="text-primary fw-bold">
+            <i class="fas fa-chalkboard-teacher me-2"></i>Tableau de bord - Professeur
+        </h2>
+        <p class="text-muted">Bienvenue sur votre espace professeur. Consultez les statistiques et gérez les notes.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 border-0">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="rounded-circle bg-primary bg-opacity-10 p-3 mb-3">
+                    <i class="fas fa-user-graduate text-primary fa-2x"></i>
+                </div>
+                <h5 class="card-title">Total étudiants</h5>
+                <p class="card-text display-6 fw-bold text-primary">{{ total_etudiants }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 border-0">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="rounded-circle bg-info bg-opacity-10 p-3 mb-3">
+                    <i class="fas fa-book text-info fa-2x"></i>
+                </div>
+                <h5 class="card-title">Total matières</h5>
+                <p class="card-text display-6 fw-bold text-info">{{ total_matieres }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 border-0">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="rounded-circle bg-success bg-opacity-10 p-3 mb-3">
+                    <i class="fas fa-chart-line text-success fa-2x"></i>
+                </div>
+                <h5 class="card-title">Moyenne globale</h5>
+                <p class="card-text display-6 fw-bold text-success">{{ moyenne_globale }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6 mb-3">
+        <div class="card h-100 border-0">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="rounded-circle bg-warning bg-opacity-10 p-3 mb-3">
+                    <i class="fas fa-trophy text-warning fa-2x"></i>
+                </div>
+                <h5 class="card-title">Meilleure note</h5>
+                <p class="card-text display-6 fw-bold text-warning">{{ meilleure_note }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <div class="card h-100 border-0">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="rounded-circle bg-danger bg-opacity-10 p-3 mb-3">
+                    <i class="fas fa-exclamation-circle text-danger fa-2x"></i>
+                </div>
+                <h5 class="card-title">Pire note</h5>
+                <p class="card-text display-6 fw-bold text-danger">{{ pire_note }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-white">
+        <h5 class="card-title mb-0">Étudiant en difficulté</h5>
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            {% if pire_etudiant %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ pire_etudiant.nom }}
+                    <span class="badge bg-danger rounded-pill">{{ pire_etudiant.moyenne }}/20</span>
+                </li>
+            {% else %}
+                <li class="list-group-item">Aucun étudiant avec des notes faibles.</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-white">
+        <h5 class="card-title mb-0">Meilleur étudiant</h5>
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            {% if meilleur_etudiant %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ meilleur_etudiant.nom }}
+                    <span class="badge bg-success rounded-pill">{{ meilleur_etudiant.moyenne }}/20</span>
+                </li>
+            {% else %}
+                <li class="list-group-item">Aucun étudiant avec des notes excellentes.</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-white">
+        <h5 class="card-title mb-0">Moyenne par matière</h5>
+    </div>
+    <div class="card-body">
+        <canvas id="matiereChart" height="100"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('matiereChart').getContext('2d');
+    const matiereChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [{% for nom, moy in moyennes_par_matiere %}"{{ nom }}",{% endfor %}],
+            datasets: [{
+                label: 'Moyenne par matière',
+                data: [{% for nom, moy in moyennes_par_matiere %}{{ moy }},{% endfor %}],
+                backgroundColor: 'rgba(30, 144, 255, 0.6)',
+                borderColor: 'rgba(30, 144, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: { 
+                y: { 
+                    beginAtZero: true, 
+                    max: 20,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '/20';
+                        }
+                    }
+                } 
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
+
+<style>
+    .button-3d {
+        position: relative;
+        padding: 15px 30px;
+        margin: 10px 20px;
+        border: none;
+        background: linear-gradient(to bottom, #4CAF50, #45a049);
+        color: white;
+        font-size: 1.2em;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 10px;
+        box-shadow: 0 8px #357935;
+        transition: all 0.1s;
+    }
+
+    .button-3d:hover {
+        box-shadow: 0 6px #357935;
+        transform: translateY(2px);
+    }
+
+    .button-3d:active {
+        box-shadow: 0 2px #357935;
+        transform: translateY(6px);
+    }
+
+    .button-3d.blue {
+        background: linear-gradient(to bottom, #2196F3, #1976D2);
+        box-shadow: 0 8px #1565C0;
+    }
+
+    .button-3d.blue:hover {
+        box-shadow: 0 6px #1565C0;
+    }
+
+    .button-3d.blue:active {
+        box-shadow: 0 2px #1565C0;
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+        gap: 20px;
+    }
+</style>
+
+<div class="buttons-container">
+    {% if user.role == 'Prof' %}
+    <a href="{% url 'add_note' %}" class="button-3d">
+        <i class="fas fa-plus-circle me-2"></i>Ajouter des notes
+    </a>
+    <a href="{% url 'add_matiere' %}" class="button-3d blue">
+        <i class="fas fa-book me-2"></i>Ajouter des matières
+    </a>
+    {% endif %}
+    
+    {% if user.role == 'Admin' %}
+    <a href="{% url 'list_users' %}" class="button-3d blue">
+        <i class="fas fa-users me-2"></i>Gérer les utilisateurs
+    </a>
+    {% endif %}
+</div>
+{% endblock %}

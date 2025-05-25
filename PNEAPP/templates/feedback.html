@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg p-4 w-100" style="max-width: 600px; border-radius: 15px;">
+        <h3 class="text-center mb-4 text-primary">Envoyer un Feedback</h3>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="sujet" class="form-label">Sujet :</label>
+                <input type="text" class="form-control" name="sujet" required><br><br>
+            </div>
+
+            <div class="mb-3">
+                <label for="message" class="form-label">Message :</label><br>
+                <textarea name="message" class="form-control" rows="5" required></textarea><br><br>
+            </div>
+
+            <div class="mb-3">
+                <label for="destinataire" class="form-label">Envoyer à :</label>
+                <select name="destinataire" class="form-select" required>
+                    {% for etudiant in etudiants %}
+                        <option value="{{ etudiant.id }}">{{ etudiant.first_name }} {{ etudiant.last_name }} ({{ etudiant.email }})</option>
+                    {% endfor %}
+                </select><br><br>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+            <a href="{% url 'feedback_envoyes' %}" class="btn btn-primary">feedback envoyés</a>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

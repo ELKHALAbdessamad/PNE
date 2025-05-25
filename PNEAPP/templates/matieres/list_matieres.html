@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Liste des matières</h2>
+
+  <table class="table table-bordered text-center">
+      <thead class="table-light">
+          <tr>
+              <th>#</th>
+              <th>Nom</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for matiere in matieres %}
+              <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ matiere.nom }}</td>
+                  <td>
+                      <a href="{% url 'update_matiere' matiere.id %}" class="btn btn-sm btn-warning">Modifier</a>
+                      <a href="{% url 'delete_matiere' matiere.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+                  </td>
+              </tr>
+          {% empty %}
+              <tr>
+                  <td colspan="3">Aucune matière enregistrée.</td>
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+
+  <div class="text-center mt-4">
+      <a href="{% url 'add_matiere' %}" class="btn btn-primary">Ajouter une matière</a>
+  </div>
+{% if user.role == 'Prof' %}
+<div class="mt-3 d-flex justify-content-between">
+ 
+    <a href="{% url 'dashboard_professeur' %}" class="btn btn-primary">
+      <i class="fas fa-arrow-left me-2"></i>Retour au tableau de bord
+    </a>
+</div>
+{% endif %}
+{% endblock %}
